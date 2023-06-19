@@ -1,6 +1,8 @@
 package com.hamza.blog.payload;
 
 import com.hamza.blog.entities.Comment;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Set;
@@ -9,8 +11,13 @@ import java.util.Set;
 public class PostDto {
 
     private Long id;
+    @NotEmpty
+    @Size(min = 2, message = "Post title should have at least 2 character")
     private String title;
+    @NotEmpty
+    @Size(min=10,message = "post description should have at least 10 character")
     private String description;
+    @NotEmpty
     private String content;
     private Set<CommentDto> comments;
 }
