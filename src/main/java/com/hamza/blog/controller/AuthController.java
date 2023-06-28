@@ -1,5 +1,6 @@
 package com.hamza.blog.controller;
 
+import com.hamza.blog.payload.JwtAuthResponse;
 import com.hamza.blog.payload.LoginDto;
 import com.hamza.blog.payload.RegisterDto;
 import com.hamza.blog.service.AuthService;
@@ -22,9 +23,11 @@ public class AuthController {
     // login endpoint rest api
 
     @PostMapping(value = {"/login","/signin"})
-    public ResponseEntity<String> login (@RequestBody LoginDto loginDto) {
-      String response = authService.login(loginDto);
-      return ResponseEntity.ok(response);
+    public ResponseEntity<JwtAuthResponse> login (@RequestBody LoginDto loginDto) {
+      String token = authService.login(loginDto);
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+      return ResponseEntity.ok(jwtAuthResponse);
     }
 
     // Build register rest api
