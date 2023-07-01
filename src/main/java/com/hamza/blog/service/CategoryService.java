@@ -1,6 +1,7 @@
 package com.hamza.blog.service;
 
 import com.hamza.blog.payload.CategoryDto;
+import com.hamza.blog.payload.PostDto;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface CategoryService {
     CategoryDto updateCategory (CategoryDto categoryDto, long categoryId);
 
     void deleteCategory (long categoryId);
+
 }
