@@ -3,6 +3,10 @@ package com.hamza.blog.controller;
 import com.hamza.blog.payload.PostDto;
 import com.hamza.blog.payload.PostResponse;
 import com.hamza.blog.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@Tag(
+        name = "CRUD REST APIs for Post resource"
+)
 public class PostController {
 
     private PostService postService;
@@ -21,6 +28,17 @@ public class PostController {
         this.postService = postService;
     }
 
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
+    @Operation(
+            summary = "Create Post REST Api",
+            description = "used to save post in database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "resource created"
+    )
     @PreAuthorize("hasRole('admin')")
     @PostMapping
     public ResponseEntity<PostDto> createPost (@Valid @RequestBody PostDto postDto) {
@@ -38,6 +56,9 @@ public class PostController {
   return ResponseEntity.ok(postService.getPostById(id));
     }
 
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @PreAuthorize("hasRole('admin')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost (@PathVariable(name = "id") Long id,
@@ -46,6 +67,9 @@ public class PostController {
         return new ResponseEntity<>(updatedPost,HttpStatus.OK);
     }
 
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
 
     @PreAuthorize("hasRole('admin')")
     @DeleteMapping("/{id}")
